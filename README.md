@@ -1,0 +1,2 @@
+# funchat
+Funny chat application
