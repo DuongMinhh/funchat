@@ -1,7 +1,8 @@
-import { Form, Input, Modal } from 'antd'
-import React, { useContext, useEffect, useState } from 'react'
-import { AppContext } from '../../../context/AppProvider'
-import { AuthContext } from '../../../context/AuthProvider'
+import { Form, Input, Modal } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import { AppContext } from '../../../context/AppProvider';
+import { AuthContext } from '../../../context/AuthProvider';
+import SubmitModal from './SubmitModal';
 
 export const UseInfoModal = () => {
     const [form] = Form.useForm()
@@ -20,73 +21,61 @@ export const UseInfoModal = () => {
             passwordConfirm: ''
         })
     })
-
-    const submitOk = () => {
-        /* Call BE API to change info of user */
-
-
-        setSubmitVisible(false)
-        setIsUseInfoModalVisible(false)
-    }
-    const submitCancel = () => {
-        setSubmitVisible(false)
-        setIsUseInfoModalVisible(false)
-    }
     const handleOk = () => {
         const info = form.getFieldsValue()
-        if (info.name !== user.name || info.password !== undefined) {
+        if (info.name !== user.name || (info.password !== undefined && info.password !== '')) {
             setInfoChanging(info)
             setSubmitVisible(true)
         } else {
             setIsUseInfoModalVisible(false)
+            setSubmitVisible(false)
         }
     }
     const handleCancel = () => {
         setIsUseInfoModalVisible(false)
     }
+    const closeModal = () => {
+        setSubmitVisible(false)
+    }
+    const performCallApi = async (passwordConfirm) => {
+        /* Call API to perform */
+        /* Show toast */
+        /* Reload page*/
+        console.log(infoChanging)
+        console.log({passwordConfirm})
+    }
 
     return (
         <div>
-            {
-                submitVisibile ?
-                    <Modal
-                        title='Xác nhận thay đổi?'
-                        visible={isUseInfoModalVisible}
-                        onOk={submitOk}
-                        onCancel={submitCancel}
-                    >
-                        <Form form={subitForm} layout='vertical'>
-                            <Form.Item label='Nhập mật khẩu hiện tại' name='passwordConfirm'>
-                                <Input type='password' />
-                            </Form.Item>
-                        </Form>
-                    </Modal>
-                    :
-                    <Modal
-                        title='Thông tin cá nhân'
-                        visible={isUseInfoModalVisible}
-                        onOk={handleOk}
-                        onCancel={handleCancel}
-                    >
-                        <Form form={form} layout='vertical'>
-                            <Form.Item label='Tên hiển thị' name='name'>
-                                <Input />
-                            </Form.Item>
-                            <Form.Item label='Địa chỉ email' name='email'>
-                                <Input
-                                    style={{ color: '#A9A9A9' }}
-                                    readOnly
-                                />
-                            </Form.Item>
-                            <Form.Item label='Mật khẩu' name='password'>
-                                <Input
-                                    placeholder='Thiết lập mật khẩu mới'
-                                    type='password'
-                                />
-                            </Form.Item>
-                        </Form>
-                    </Modal>
-            }
+            <SubmitModal
+                isVisible={submitVisibile}
+                closeModal={closeModal}
+                performCallApi={performCallApi}
+            />
+            <Modal
+                title='Thông tin cá nhân'
+                visible={isUseInfoModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <Form form={form} layout='vertical'>
+                    <Form.Item label='Tên hiển thị' name='name'>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label='Địa chỉ email' name='email'>
+                        <Input
+                            style={{ color: '#A9A9A9' }}
+                            readOnly
+                        />
+                    </Form.Item>
+                    <Form.Item label='Thiết lập mật khẩu mới' name='password'>
+                        <Input
+                            placeholder='Nhập mật khẩu'
+                            type='password'
+                        />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     )
 }

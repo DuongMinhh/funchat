@@ -50,7 +50,7 @@ export default function AppProvider({ children }) {
         isRefreshRoom, setIsRefreshRoom,
         isAddMemberVisible, setIsAddMemberVisible,
         stompClient, setStompClient,
-        isUseInfoModalVisible, setIsUseInfoModalVisible
+        isUseInfoModalVisible, setIsUseInfoModalVisible,
       }}>
       {contextHolder}
       {children}

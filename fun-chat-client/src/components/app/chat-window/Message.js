@@ -31,6 +31,7 @@ const WrapperAuthor = styled.div`
     flex-flow: column nowrap;
     align-items: flex-end;
     margin-bottom: 10px;
+    margin-right: 10px;
 
     .message {
         text-align: end;

@@ -33,14 +33,14 @@ export default function UserInfo() {
                 </Col>
                 <Col span={24}>
                     <Button
-                        style={{ width: '100%', marginTop: 10 }}
+                        style={{ width: '100%', marginTop: 10, borderRadius: '5px' }}
                         ghost
                         onClick={() => setIsUseInfoModalVisible(true)}
                     >
                         Thông tin cá nhân
                     </Button>
                     <Button
-                        style={{ width: '100%', marginTop: 10 }}
+                        style={{ width: '100%', marginTop: 10, borderRadius: '5px' }}
                         ghost
                         onClick={handleClick}
                     >

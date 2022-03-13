@@ -37,6 +37,7 @@ const FormStyled = styled(Form)`
     padding: 2px 2px 2px 0;
     border: 1px solid rgba(230, 230, 230);
     border-radius: 2px;
+    margin-right: 10px;
     .ant-form-item {
         flex: 1;
         margin-bottom: 0;

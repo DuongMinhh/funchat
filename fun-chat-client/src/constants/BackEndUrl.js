@@ -9,8 +9,8 @@ const BE_USER_URL = '/user'
 export const BE_USER_ME_URL = `${API_BASE_URL}${BE_USER_URL}/me`
 
 const BE_ROOM_URL = '/room'
-export const BE_ROOM_ALL_URL = `${API_BASE_URL}${BE_ROOM_URL}/all`
 export const BE_ROOM_BASE_URL = `${API_BASE_URL}${BE_ROOM_URL}`
+export const BE_ROOM_ALL_URL = `${API_BASE_URL}${BE_ROOM_URL}/all`
 
 export const BE_AUTH_URL = '/auth'
 export const BE_AUTH_LOGIN_URL = `${API_BASE_URL}${BE_AUTH_URL}/login`

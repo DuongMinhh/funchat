@@ -7,12 +7,24 @@ export const fetchData = async (url, method, data = {}) => {
         if (method.toLowerCase() === 'get') {
             const response = await fetch(url, {
                 // mode: 'cors',
-                method: method,
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
+            })
+            return await response.json()
+        }
+        if (method.toLowerCase() === 'delete') {
+            const response = await fetch(url, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
             })
             return await response.json()
         }
