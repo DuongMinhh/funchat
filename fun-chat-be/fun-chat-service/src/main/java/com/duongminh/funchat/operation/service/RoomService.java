@@ -11,4 +11,9 @@ public interface RoomService {
     RoomDto create(RoomModel model) throws CustomException;
     
     List<RoomDto> getAll(Long memberId) throws CustomException;
+    
+    Boolean delete(Long id, Long ownerId, String confirmPassword) throws CustomException;
+    
+    Boolean addUser(Long id, Long userId) throws CustomException;
+    
 }

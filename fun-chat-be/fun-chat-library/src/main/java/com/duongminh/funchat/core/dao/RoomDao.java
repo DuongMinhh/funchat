@@ -13,4 +13,8 @@ public interface RoomDao {
     
     List<RoomDto> getAll(Long memberId) throws CustomException;
     
+    Boolean delete(Long id) throws CustomException;
+    
+    Boolean addUser(Long id, Long userId) throws CustomException;
+    
 }
