@@ -1,4 +1,4 @@
-import { DeleteOutlined, UserAddOutlined } from '@ant-design/icons';
+import { DeleteOutlined, UserAddOutlined, LogoutOutlined } from '@ant-design/icons';
 import { isVisible } from '@testing-library/user-event/dist/utils';
 import { Avatar, Button, Tooltip } from 'antd';
 import React, { useContext, useState, useEffect } from 'react';
@@ -7,7 +7,7 @@ import { AppContext } from '../../../context/AppProvider';
 import AuthProvider, { AuthContext } from '../../../context/AuthProvider';
 import SubmitModal from '../modals/SubmitModal';
 import { fetchData } from '../../../services/Service';
-import { BE_ROOM_BASE_URL } from '../../../constants/BackEndUrl';
+import { BE_ROOM_BASE_URL, BE_USER_LEAVE_ROOM } from '../../../constants/BackEndUrl';
 
 const Wrapper = styled.div`
     display: flex;
@@ -42,6 +42,8 @@ export default function Header() {
     const { user } = useContext(AuthContext)
     const [isOwner, setIsOwner] = useState(false)
     const [visibleSubmit, setVisibleSubmit] = useState(false)
+    const [textSubmit, setTextSubmit] = useState('')
+    const [afterSubmitFunction, setAfterSubmitFunction] = useState(null)
 
     /* Detect owner of chat group */
     useEffect(() => {
@@ -55,6 +57,13 @@ export default function Header() {
 
     const handleRemoveGroup = () => {
         setVisibleSubmit(true)
+        setTextSubmit("Bạn có muốn xóa nhóm này?")
+        setAfterSubmitFunction(() => performRemoveRoom)
+    }
+    const handleOutGroup = () => {
+        setVisibleSubmit(true)
+        setTextSubmit("Bạn có muốn thoát nhóm này?")
+        setAfterSubmitFunction(() => performOutRoom)
     }
     const closeModal = () => {
         setVisibleSubmit(false)
@@ -75,14 +84,30 @@ export default function Header() {
             return
         }
     }
+    const performOutRoom = async () => {
+        const res = await fetchData(`${BE_USER_LEAVE_ROOM}/${selectedRoom.id}`, 'PUT')
+        if (res !== null && res.status === 200) {
+            openMessage("Đã thoát nhóm thành công", 'success')
+            /* Reload page*/
+            setIsRefreshRoom(true)
+            setSelectedRoom({})
+        } else if (res !== null && res.status !== 200) {
+            openMessage(res.message, 'error')
+            return
+        } else {
+            openMessage('Unexpected error', 'error')
+            return
+        }
+    }
 
     return (
         <>
             <SubmitModal
                 isVisible={visibleSubmit}
-                text="Bạn có muốn xóa nhóm này?"
+                text={textSubmit}
                 closeModal={closeModal}
-                performCallApi={performRemoveRoom}
+                performCallApi={afterSubmitFunction}
+                needConfirm={false}
             />
             <Wrapper>
                 {selectedRoom.id ?
@@ -108,7 +133,14 @@ export default function Header() {
                                     >
                                         Xóa nhóm
                                     </Button>
-                                    : ""
+                                    :
+                                    <Button
+                                        icon={<LogoutOutlined />}
+                                        type='text'
+                                        onClick={handleOutGroup}
+                                    >
+                                        Thoát nhóm
+                                    </Button>
                             }
 
                             <Avatar.Group size='small' maxCount={2}>

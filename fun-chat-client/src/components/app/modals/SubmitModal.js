@@ -1,7 +1,7 @@
 import { Form, Modal, Input } from 'antd'
 import React, { useEffect } from 'react'
 
-export default function SubmitModal({ isVisible, text='', performCallApi, closeModal }) {
+export default function SubmitModal({ isVisible, header='', text = '', performCallApi, closeModal, needConfirm }) {
     const [subitForm] = Form.useForm()
 
     useEffect(() => {
@@ -10,12 +10,17 @@ export default function SubmitModal({ isVisible, text='', performCallApi, closeM
         })
     })
     const submitOk = async () => {
-        const confirmPassword = subitForm.getFieldValue('confirmPassword')
+        if (needConfirm) {
+            const confirmPassword = subitForm.getFieldValue('confirmPassword')
 
-        if (confirmPassword) {
-            await performCallApi(confirmPassword)
-            await closeModal()
+            if (confirmPassword) {
+                await performCallApi(confirmPassword)
+                await closeModal()
+            } else {
+                await closeModal()
+            }
         } else {
+            await performCallApi("")
             await closeModal()
         }
     }
@@ -26,16 +31,22 @@ export default function SubmitModal({ isVisible, text='', performCallApi, closeM
     return (
         <div>
             <Modal
-                title={text !== '' ? text : 'Xác nhận thay đổi?'}
+                title={header !== '' ? header : 'XÁC NHẬN'}
                 visible={isVisible}
                 onOk={submitOk}
                 onCancel={submitCancel}
             >
-                <Form form={subitForm} layout='vertical'>
-                    <Form.Item label='Nhập mật khẩu' name='confirmPassword'>
-                        <Input type='password' />
-                    </Form.Item>
-                </Form>
+                {text !== '' ? text : 'Xác nhận thay đổi?'}
+                {
+                    needConfirm ?
+                        <Form form={subitForm} layout='vertical'>
+                            <Form.Item label='Nhập mật khẩu' name='confirmPassword'>
+                                <Input type='password' />
+                            </Form.Item>
+                        </Form>
+                        :
+                        ""
+                }
             </Modal>
         </div>
     )

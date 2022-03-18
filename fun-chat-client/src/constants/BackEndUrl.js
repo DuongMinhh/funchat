@@ -7,6 +7,8 @@ export const GITHUB_AUTH_URL = API_BASE_URL + '/oauth2/authorize/github?redirect
 
 const BE_USER_URL = '/user'
 export const BE_USER_ME_URL = `${API_BASE_URL}${BE_USER_URL}/me`
+export const BE_USER_LEAVE_ROOM = `${API_BASE_URL}${BE_USER_URL}/leave/room`
+export const BE_USER_SEARCH_URL = `${API_BASE_URL}${BE_USER_URL}/search`
 
 const BE_ROOM_URL = '/room'
 export const BE_ROOM_BASE_URL = `${API_BASE_URL}${BE_ROOM_URL}`
