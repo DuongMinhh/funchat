@@ -45,7 +45,7 @@ const Wrapper = styled.div`
 
 export default function Login() {
     const [isLogin, setIsLogin] = useState(true)
-    const { setAccessToken } = useContext(AuthContext)
+    const { setAccessToken, navigation } = useContext(AuthContext)
     const { openMessage } = useContext(AppContext)
 
     const handleLogin = async value => {
@@ -201,7 +201,7 @@ export default function Login() {
                                         htmlType="submit"
                                         style={{ borderRadius: 5 }}
                                         // onClick={handleRegister}
-                                        htmlType="submit"
+                                        // htmlType="submit"
                                     >
                                         Đăng ký
                                     </Button>

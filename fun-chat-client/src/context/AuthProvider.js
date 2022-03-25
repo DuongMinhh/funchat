@@ -43,17 +43,17 @@ const fetchDataAndNavigate = (token, navigation, setUser) => {
             'Authorization': `Bearer ${token}`
         }
     })
-    .then(res => res.json())
-    .then(responseData => {
-        setUser(convertUser(responseData.data))
-        navigation('/')
-        return
-    })
-    .catch(error => {
-        console.log({ error })
-        navigation('/login')
-        return
-    })
+        .then(res => res.json())
+        .then(responseData => {
+            setUser(convertUser(responseData.data))
+            navigation('/')
+            return
+        })
+        .catch(error => {
+            console.log({ error })
+            navigation('/login')
+            return
+        })
 }
 
 export const AuthContext = createContext()
@@ -66,28 +66,22 @@ export default function AuthProvider({ children }) {
 
     /* Check login status when start up */
     useEffect(() => {
-        const url = new URL(window.location.href)
-        let token = url.searchParams.get('token')
-        let error = url.searchParams.get('error')
+        /* Start login with access token */
+        if (accessToken !== '') {
+            console.log(accessToken)
+            return fetchDataAndNavigate(accessToken, navigation, setUser)
+        }
 
+        /* Get token from local storage or oauth2 */
+        let token = localStorage.getItem(ACCESS_TOKEN)
         if (token) {
-            localStorage.setItem(ACCESS_TOKEN, token)
             setAccessToken(token)
         } else {
-            token = localStorage.getItem(ACCESS_TOKEN)
+            const url = new URL(window.location.href)
+            token = url.searchParams.get('token')
             setAccessToken(token)
         }
-
-        if (accessToken) {
-            fetchDataAndNavigate(accessToken, navigation, setUser)
-            return
-        } else if (error) {
-            navigation('/login')
-            return 
-        } else {
-            navigation('/login')
-            return
-        }
+        return fetchDataAndNavigate(accessToken, navigation, setUser)
     }, [accessToken])
     return (
         <AuthContext.Provider value={{ user, setUser, accessToken, setAccessToken, navigation, socket }}>

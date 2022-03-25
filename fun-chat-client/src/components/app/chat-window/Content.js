@@ -66,6 +66,9 @@ export default function Content() {
     }
 
     useEffect(() => {
+        if (selectedRoom.id === undefined) {
+            return
+        }
         /* Fetch messages */
         const doFetch = async () => {
             const res = await fetchData(`${BE_MESSAGE_ALL_URL}/${selectedRoom.id}`, 'get')
