@@ -18,6 +18,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok-mapstruct-binding</artifactId>
+			<version>0.2.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.duongminh.fun-chat</groupId>
 			<artifactId>fun-chat-library</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

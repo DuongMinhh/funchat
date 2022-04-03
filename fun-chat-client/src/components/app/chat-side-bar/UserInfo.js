@@ -18,7 +18,7 @@ export default function UserInfo() {
     const { user, setUser, setAccessToken } = useContext(AuthContext)
     const { openMessage, setIsUseInfoModalVisible } = useContext(AppContext)
     const handleClick = () => {
-        localStorage.setItem(ACCESS_TOKEN, null)
+        localStorage.setItem(ACCESS_TOKEN, '')
         setUser({})
         setAccessToken('')
         openMessage('Logout success', 'success')

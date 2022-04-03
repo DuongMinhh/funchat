@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { BE_USER_ME_URL, BE_WEBSOCKET_CLIENT_URL } from '../constants/BackEndUrl'
 import { ACCESS_TOKEN } from '../constants/Constant'
 import SockJS from 'sockjs-client'
+import { fetchData } from '../services/Service'
 
 const Wrapper = styled.div`
     height: 100vh;
@@ -34,27 +35,6 @@ const convertUser = data => {
         }
     }
 }
-const fetchDataAndNavigate = (token, navigation, setUser) => {
-    fetch(BE_USER_ME_URL, {
-        mode: 'cors',
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-    })
-        .then(res => res.json())
-        .then(responseData => {
-            setUser(convertUser(responseData.data))
-            navigation('/')
-            return
-        })
-        .catch(error => {
-            console.log({ error })
-            navigation('/login')
-            return
-        })
-}
 
 export const AuthContext = createContext()
 export default function AuthProvider({ children }) {
@@ -62,29 +42,41 @@ export default function AuthProvider({ children }) {
     const [accessToken, setAccessToken] = useState('')
     const navigation = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
-    const socket = new SockJS(BE_WEBSOCKET_CLIENT_URL);
+    const socket = new SockJS(BE_WEBSOCKET_CLIENT_URL)
 
-    /* Check login status when start up */
-    useEffect(() => {
-        /* Start login with access token */
-        if (accessToken !== '') {
-            console.log(accessToken)
-            return fetchDataAndNavigate(accessToken, navigation, setUser)
+    useEffect(async () => {
+        setIsLoading(true)
+        if (accessToken == '' || accessToken == null) {
+            let token = localStorage.getItem(ACCESS_TOKEN)
+            if (token) {
+                setAccessToken(token)
+            } else {
+                const url = new URL(window.location.href)
+                token = url.searchParams.get('token')
+                setAccessToken(token)
+            }
         }
 
-        /* Get token from local storage or oauth2 */
-        let token = localStorage.getItem(ACCESS_TOKEN)
-        if (token) {
-            setAccessToken(token)
+        if (accessToken !== '' && accessToken !== null) {
+            const res = await fetchData(BE_USER_ME_URL, 'GET', {});
+            if (res !== null && res.status === 200) {
+                setUser(convertUser(res.data))
+                navigation('/')
+            } else {
+                navigation('/login')
+            }
         } else {
-            const url = new URL(window.location.href)
-            token = url.searchParams.get('token')
-            setAccessToken(token)
+            navigation('/login')
         }
-        return fetchDataAndNavigate(accessToken, navigation, setUser)
+        setIsLoading(false)
     }, [accessToken])
     return (
-        <AuthContext.Provider value={{ user, setUser, accessToken, setAccessToken, navigation, socket }}>
+        <AuthContext.Provider value={{
+            user, setUser,
+            accessToken,
+            setAccessToken, navigation,
+            socket,
+        }}>
             <Wrapper>
                 {isLoading ? <StyledSpin /> : children}
             </Wrapper>

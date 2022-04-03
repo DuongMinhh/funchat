@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import { BE_ROOM_ALL_URL } from '../../../constants/BackEndUrl'
 import { AppContext } from '../../../context/AppProvider'
 import { fetchData } from '../../../services/Service'
@@ -35,23 +35,17 @@ export default function RoomList() {
     const [rooms, setRooms] = useState([])
     const { openMessage, setSelectedRoom, setOpenIsAddRoom, isRefreshRoom, setIsRefreshRoom } = useContext(AppContext)
 
-    useEffect(() => {
-        async function doFetch() {
-            const res = await fetchData(BE_ROOM_ALL_URL, 'GET')
-            setIsRefreshRoom(false)
-            if (res !== null && res.status === 200) {
-                setRooms(res.data)
-                return
-            } else if (res !== null && res.status !== 200) {
-                openMessage(res.message, 'error')
-                return
-            } else {
-                openMessage('Unexpected error', 'error')
-                return
-            }
+    useEffect(async () => {
+        setIsRefreshRoom(false)
+        const res = await fetchData(BE_ROOM_ALL_URL, 'GET')
+        
+        if (res !== null && res.status === 200) {
+            setRooms(res.data)
+        } else if (res !== null && res.status !== 200) {
+            openMessage(res.message, 'error')
+        } else {
+            openMessage('Unexpected error', 'error')
         }
-
-        doFetch()
     }, [isRefreshRoom])
 
     const handleSelectRoom = id => {
