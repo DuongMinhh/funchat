@@ -15,6 +15,7 @@ import com.duongminh.funchat.core.dto.MessageDto;
 import com.duongminh.funchat.core.exception.CustomException;
 import com.duongminh.funchat.core.model.ApiResponse;
 import com.duongminh.funchat.core.model.MessageModel;
+import com.duongminh.funchat.core.model.QueryParam;
 import com.duongminh.funchat.operation.service.MessageService;
 
 @RestController
@@ -35,9 +36,18 @@ public class MessageController {
     }
     
     @GetMapping("/all/{roomId}")
-    public ResponseEntity<List<MessageDto>> getAll(@PathVariable("roomId") Long roomId) {
+    public ResponseEntity<List<MessageDto>> getAll(@PathVariable("roomId") Long roomId, QueryParam params) {
         try {
-            return ApiResponse.ok(messageService.getAll(roomId)).build();
+            return ApiResponse.ok(messageService.getAll(roomId, params)).build();
+        } catch (CustomException e) {
+            return new ApiResponse(e.getCode(), e.getMessage()).build();
+        }
+    }
+    
+    @GetMapping("/count-page/{roomId}")
+    public ResponseEntity<Long> countMessages(@PathVariable("roomId") Long roomId, QueryParam params) {
+        try {
+            return ApiResponse.ok(messageService.countMessages(roomId, params)).build();
         } catch (CustomException e) {
             return new ApiResponse(e.getCode(), e.getMessage()).build();
         }

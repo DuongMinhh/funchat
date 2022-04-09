@@ -21,5 +21,6 @@ export const BE_AUTH_SIGNUP_URL = `${API_BASE_URL}${BE_AUTH_URL}/signup`
 const BE_MESSAGE_URL = '/message'
 export const BE_MESSAGE_BASE_URL = `${API_BASE_URL}${BE_MESSAGE_URL}`
 export const BE_MESSAGE_ALL_URL = `${API_BASE_URL}${BE_MESSAGE_URL}/all`
+export const BE_MESSAGE_COUNT_PAGE_URL = `${API_BASE_URL}${BE_MESSAGE_URL}/count-page`
 
 export const BE_WEBSOCKET_CLIENT_URL = `${API_BASE_URL}/ws`

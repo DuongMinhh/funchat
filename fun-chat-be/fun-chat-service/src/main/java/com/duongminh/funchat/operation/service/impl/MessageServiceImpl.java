@@ -15,6 +15,7 @@ import com.duongminh.funchat.core.dto.RoomDto;
 import com.duongminh.funchat.core.dto.UserDto;
 import com.duongminh.funchat.core.exception.CustomException;
 import com.duongminh.funchat.core.model.MessageModel;
+import com.duongminh.funchat.core.model.QueryParam;
 import com.duongminh.funchat.operation.service.MessageService;
 
 import lombok.extern.log4j.Log4j2;
@@ -62,8 +63,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<MessageDto> getAll(Long roomId) throws CustomException {
-        return messageDao.getAll(roomId);
+    public List<MessageDto> getAll(Long roomId, QueryParam params) throws CustomException {
+        return messageDao.getAll(roomId, params);
+    }
+
+    @Override
+    public Long countMessages(Long roomId, QueryParam params) throws CustomException {
+        return messageDao.countMessages(roomId, params);
     }
 
 }

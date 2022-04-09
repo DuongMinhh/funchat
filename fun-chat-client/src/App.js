@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Main />} />
           <Route path='/login' element={<Login />} />
-          {/* <Route path='/oauth2/redirect' element={<Outh2Response />} /> */}
+          <Route path='/oauth2/redirect' element={<Outh2Response />} />
         </Routes>
         <AddRoom/>
         <AddMember/>

@@ -53,12 +53,12 @@ const WrapperAuthor = styled.div`
         margin-right: 30px;
     }
 `
-export default function Message({ text, name, createAt, photoURL }) {
+export default function Message({ text, name, userId, createAt, photoURL }) {
     const { user } = useContext(AuthContext)
     const [isAuthor, setIsAuthor] = useState(false)
 
     useEffect(() => {
-        if (user.name === name) {
+        if (user.id === userId) {
             setIsAuthor(true)
         } else {
             setIsAuthor(false)

@@ -21,7 +21,6 @@ public class WebSocketController {
     @MessageMapping("/wsroom/{roomId}")
     @SendTo(value = {"/res/room/{roomId}"})
     public MessageDto sendMessage(@DestinationVariable(value = "roomId") Long roomId, @Payload MessageModel model) throws CustomException {
-        System.out.println(model);
         return messageService.create(model);
     }
 

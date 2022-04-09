@@ -50,10 +50,6 @@ export default function AuthProvider({ children }) {
             let token = localStorage.getItem(ACCESS_TOKEN)
             if (token) {
                 setAccessToken(token)
-            } else {
-                const url = new URL(window.location.href)
-                token = url.searchParams.get('token')
-                setAccessToken(token)
             }
         }
 

@@ -30,10 +30,11 @@ const LinkStyled = styled(Typography.Link)`
     border: 1px solid whitesmoke;
     padding: 3px;
     border-radius: 5px;
+    background-color: ${prop => prop.choosed ? '#ADD8E6' : ''};
 `
 export default function RoomList() {
     const [rooms, setRooms] = useState([])
-    const { openMessage, setSelectedRoom, setOpenIsAddRoom, isRefreshRoom, setIsRefreshRoom } = useContext(AppContext)
+    const { openMessage, selectedRoom, setSelectedRoom, setOpenIsAddRoom, isRefreshRoom, setIsRefreshRoom } = useContext(AppContext)
 
     useEffect(async () => {
         setIsRefreshRoom(false)
@@ -61,6 +62,7 @@ export default function RoomList() {
                     <LinkStyled
                         key={room.id}
                         onClick={() => handleSelectRoom(room.id)}
+                        choosed={room.id === selectedRoom.id}
                     >
                         {room.name}
                     </LinkStyled>
