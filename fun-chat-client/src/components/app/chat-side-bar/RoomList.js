@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BE_ROOM_ALL_URL } from '../../../constants/BackEndUrl'
 import { AppContext } from '../../../context/AppProvider'
 import { fetchData } from '../../../services/Service'
@@ -13,7 +13,7 @@ const PanelStyled = styled(Panel)`
             color: white;
         }
         .ant-collapse-content-box {
-            padding: 0 40px;
+            padding: 0 10px;
         }
         .add-room {
             color: white;
@@ -31,22 +31,25 @@ const LinkStyled = styled(Typography.Link)`
     padding: 3px;
     border-radius: 5px;
     background-color: ${prop => prop.choosed ? '#ADD8E6' : ''};
+    width: 100%;
 `
 export default function RoomList() {
     const [rooms, setRooms] = useState([])
     const { openMessage, selectedRoom, setSelectedRoom, setOpenIsAddRoom, isRefreshRoom, setIsRefreshRoom } = useContext(AppContext)
 
-    useEffect(async () => {
+    useEffect(() => {
         setIsRefreshRoom(false)
-        const res = await fetchData(BE_ROOM_ALL_URL, 'GET')
-        
-        if (res !== null && res.status === 200) {
-            setRooms(res.data)
-        } else if (res !== null && res.status !== 200) {
-            openMessage(res.message, 'error')
-        } else {
-            openMessage('Unexpected error', 'error')
+        const init = async () => {
+            const res = await fetchData(BE_ROOM_ALL_URL, 'GET')
+            if (res !== null && res.status === 200) {
+                setRooms(res.data)
+            } else if (res !== null && res.status !== 200) {
+                openMessage(res.message, 'error')
+            } else {
+                openMessage('Unexpected error', 'error')
+            }
         }
+        init()
     }, [isRefreshRoom])
 
     const handleSelectRoom = id => {

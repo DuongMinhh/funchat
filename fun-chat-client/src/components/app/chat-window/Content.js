@@ -1,4 +1,4 @@
-import { Button, Form, Input, Spin } from 'antd';
+import { Button, Form, Input } from 'antd';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { AppContext } from '../../../context/AppProvider';
@@ -15,6 +15,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     padding: 11px;
     justify-content: flex-end;
+    position: relative;
 `
 const MessageList = styled.div`
     overflow: none;
@@ -77,6 +78,13 @@ export default function Content() {
     /* Setup websocket connection and fetch messages for the first time */
     useEffect(() => {
         if (selectedRoom.id) {
+            /* Connect to the socket of selected room */
+            socket = new SockJS(BE_WEBSOCKET_CLIENT_URL);
+            sc = Stomp.over(socket)
+            sc.connect({}, () => wsConnectSuccess(sc, selectedRoom.id), error => wsConnectError(error))
+            setStompClient(sc)
+
+            /* Fetch messages */
             const doFetch = async () => {
                 const res = await fetchData(`${BE_MESSAGE_ALL_URL}/${selectedRoom.id}?pageNumber=0&pageSize=${pageSize}`, 'GET')
                 if (res !== null && res.status === 200) {
@@ -88,43 +96,21 @@ export default function Content() {
                 }
             }
             doFetch()
+        }
 
-            /* Connect to the socket of selected room */
-            socket = new SockJS(BE_WEBSOCKET_CLIENT_URL);
-            if (selectedRoom.id) {
-                sc = Stomp.over(socket)
-                sc.connect({}, () => wsConnectSuccess(sc, selectedRoom.id), error => wsConnectError(error))
+        return () => {
+            if (selectedRoom.id !== null && sc !== null) {
+                sc.disconnect()
                 setStompClient(sc)
-            }
-
-            return () => {
-                if (selectedRoom.id !== null && sc !== null) {
-                    sc.disconnect()
-                    setStompClient(sc)
-                    setMessages([])
-                    setPageNumber(0)
-                }
+                setMessages([])
+                setPageNumber(0)
             }
         }
     }, [selectedRoom])
 
     /* Lazy fetching messages */
-    // useEffect(() => {
-    //     if (selectedRoom.id && pageNumber !== 0) {
-    //         const doFetch = async () => {
-    //             const res = await fetchData(`${BE_MESSAGE_ALL_URL}/${selectedRoom.id}?pageNumber=${pageNumber}`, 'GET')
-    //             if (res !== null && res.status === 200) {
-    //                 setMessages(messages => [...res.data, ...messages])
-    //             }
-    //         }
-    //         doFetch()
-    //         scrollRef.current.scrollIntoView({ behavior: "auto" })
-    //     }
-    // }, [pageNumber])
     const handleLoadMessage = () => {
         if (selectedRoom.id) {
-            // const scrollPosition = window.pageYOffset
-            // console.log('position: ' + scrollPosition)
             const doFetch = async () => {
                 const res = await fetchData(`${BE_MESSAGE_ALL_URL}/${selectedRoom.id}?pageNumber=${pageNumber + 1}&pageSize=${pageSize}`, 'GET')
                 if (res !== null && res.status === 200) {
@@ -135,8 +121,6 @@ export default function Content() {
             if (pageNumber < maxPage - 1) {
                 setPageNumber(pageNumber => pageNumber + 1)
             }
-            // scrollRef.current.scrollIntoView({ behavior: "auto" })
-            // window.scrollTo(0, parseInt(scrollPosition + 1000));
         }
     }
 
@@ -174,7 +158,7 @@ export default function Content() {
                 <>
                     <MessageList>
                         <MessageListScrollStyled>
-                            <LoadMessageButton 
+                            <LoadMessageButton
                                 disabled={maxPage <= 1 || pageNumber >= maxPage - 1}
                                 onClick={handleLoadMessage}
                             >
