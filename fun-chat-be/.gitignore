@@ -42,6 +42,7 @@ secrets.yml
 .sts4-cache
 .idea
 .settings
+.project
 fun-chat-library/.settings
 fun-chat-library/target
 fun-chat-library/.classpath
