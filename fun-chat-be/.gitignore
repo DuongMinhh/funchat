@@ -40,3 +40,15 @@ target
 secrets.yml
 .gradletasknamecache
 .sts4-cache
+.idea
+.settings
+fun-chat-library/.settings
+fun-chat-library/target
+fun-chat-library/.classpath
+fun-chat-library/.factorypath
+fun-chat-library/.project
+fun-chat-service/.settings
+fun-chat-service/target
+fun-chat-service/.classpath
+fun-chat-service/.factorypath
+fun-chat-service/.project
