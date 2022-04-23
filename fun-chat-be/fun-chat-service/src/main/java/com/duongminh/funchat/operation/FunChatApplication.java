@@ -24,17 +24,18 @@ public class FunChatApplication {
     @Autowired
     private Environment env;
     
-	public static void main(String[] args) {
-		SpringApplication.run(FunChatApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FunChatApplication.class, args);
+    }
 
-	@EventListener(ApplicationReadyEvent.class)
-	public void afterStartUp() {
-	    log.info("==================================================");
-	    log.info(">>>>> Fun-chat operation is running");
-	    log.info(">>>>> Context    : " + env.getProperty("server.servlet.context-path"));
-	    log.info(">>>>> Port       : " + env.getProperty("server.port"));
-	    log.info("==================================================");
-	}
-	
+    @EventListener(ApplicationReadyEvent.class)
+    public void afterStartUp() {
+        log.info("==================================================");
+        log.info(">>>>> Fun-chat operation is running");
+        log.info(">>>>> Context    	: " + env.getProperty("server.servlet.context-path"));
+        log.info(">>>>> Environment	: " + env.getProperty("spring.profiles.active"));
+        log.info(">>>>> Port       	: " + env.getProperty("server.port"));
+        log.info("==================================================");
+    }
+
 }

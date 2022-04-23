@@ -27,7 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "room", schema = "public")
+@Table(name = "room")
 public class Room extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

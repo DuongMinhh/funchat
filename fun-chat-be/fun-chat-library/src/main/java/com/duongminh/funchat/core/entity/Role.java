@@ -22,7 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "role", schema = "public", uniqueConstraints = { @UniqueConstraint(columnNames = "name") })
+@Table(name = "role", uniqueConstraints = { @UniqueConstraint(columnNames = "name") })
 public class Role extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

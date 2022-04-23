@@ -18,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "room_member", schema = "public")
+@Table(name = "room_member")
 @IdClass(RoomMemberId.class)
 public class RoomMember implements Serializable {
 

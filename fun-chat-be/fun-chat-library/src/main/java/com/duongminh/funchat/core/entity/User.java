@@ -25,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users", schema = "public", uniqueConstraints = { @UniqueConstraint(columnNames = "email") })
+@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "email") })
 public class User extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

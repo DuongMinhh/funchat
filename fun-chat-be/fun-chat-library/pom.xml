@@ -2,6 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<packaging>jar</packaging>
 
 	<parent>
 		<groupId>com.duongminh.fun-chat</groupId>
@@ -13,6 +14,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<lombok.version>1.18.4</lombok.version>
+		<mapstruct.version>1.4.2.Final</mapstruct.version>
 	</properties>
 
 	<dependencies>
@@ -47,7 +50,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<version>${lombok.version}</version>
 		</dependency>
 
 		<dependency>
@@ -62,7 +65,7 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.4.2.Final</version>
+			<version>${mapstruct.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -76,9 +79,14 @@
 					<target>1.8</target>
 					<annotationProcessorPaths>
 						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
-							<version>1.4.2.Final</version>
+							<version>${mapstruct.version}</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>

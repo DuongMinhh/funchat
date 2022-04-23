@@ -24,19 +24,20 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<lombok.version>1.18.4</lombok.version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok-mapstruct-binding</artifactId>
-			<version>0.2.0</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-configuration-processor</artifactId>-->
+<!--			<optional>true</optional>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.projectlombok</groupId>-->
+<!--			<artifactId>lombok-mapstruct-binding</artifactId>-->
+<!--			<version>0.2.0</version>-->
+<!--		</dependency>-->
 
 	</dependencies>
 
@@ -53,7 +54,7 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>1.18.4</version>	<!-- The version of lombok in PC -->
+							<version>${lombok.version}</version>	<!-- The version of lombok in PC -->
 						</path>
 					</annotationProcessorPaths>
 				</configuration>

@@ -55,13 +55,13 @@ export default function Content() {
     const { selectedRoom, openMessage, stompClient, setStompClient } = useContext(AppContext)
     const [messages, setMessages] = useState([])
     const [pageNumber, setPageNumber] = useState(0)
-    const [pageSize, setPageSize] = useState(15)
     const [maxPage, setMaxPage] = useState(null)
     const scrollRef = useRef(null)
     const pointerRef = useRef(null)
     const [form] = Form.useForm()
     let socket = null
     let sc = null
+    const pageSize = 15
 
     const wsConnectSuccess = (stompClient, subcribeRoomId) => {
         if (stompClient) {
