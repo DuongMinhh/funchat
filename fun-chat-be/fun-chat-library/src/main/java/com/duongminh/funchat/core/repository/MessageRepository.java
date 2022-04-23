@@ -10,13 +10,13 @@ import com.duongminh.funchat.core.entity.Message;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    @Query(value = "SELECT * FROM public.message WHERE room_id = :roomId", nativeQuery = true)
+    @Query(value = "SELECT * FROM {h-schema}message WHERE room_id = :roomId", nativeQuery = true)
     List<Message> findAllByRoomId(Long roomId, Pageable pageable);
     
-    @Query(value = "SELECT * FROM public.message WHERE room_id = :roomId", nativeQuery = true)
+    @Query(value = "SELECT * FROM {h-schema}message WHERE room_id = :roomId", nativeQuery = true)
     List<Message> findAllByRoomId(Long roomId);
     
-    @Query(value = "SELECT COUNT(*) FROM public.message WHERE room_id = :roomId", nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM {h-schema}message WHERE room_id = :roomId", nativeQuery = true)
     Long countByRoomId(Long roomId);
     
 }

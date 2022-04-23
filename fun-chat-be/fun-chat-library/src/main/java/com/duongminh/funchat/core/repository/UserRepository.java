@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Boolean existsByEmail(String email);
     
-    @Query(value = "SELECT u.* FROM public.users u WHERE LOWER(u.name) LIKE CONCAT('%', :search, '%') OR LOWER(u.email) LIKE CONCAT('%', :search, '%')", nativeQuery = true)
+    @Query(value = "SELECT u.* FROM {h-schema}users u WHERE LOWER(u.name) LIKE CONCAT('%', :search, '%') OR LOWER(u.email) LIKE CONCAT('%', :search, '%')", nativeQuery = true)
     List<User> findAllByNameOrEmail(@Param("search") String searchText);
     
 }
