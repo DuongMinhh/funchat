@@ -3,11 +3,12 @@ spring:
         active: localhost
 #        active: docker
 server:
-    port: 8080
     servlet:
         context-path: /fun-chat/api
 
 ---
+server:
+    port: ${app.port}
 spring:
     profiles: localhost
     datasource:
@@ -43,7 +44,9 @@ spring:
                         scope:
                             - email
                             - profile
+
 app:
+    port: 8081
     db:
         host: localhost
         port: 5432
@@ -55,12 +58,17 @@ app:
         tokenSecret: 04ca023b39512e46d0c2c739f38970518d5aac61d34302994c87ed4eff225dcf3b0a218a057f9b846a69ea2927a587044164b7bae5e1306219d50b588cb1f4b4
         tokenExpirationMsec: 864000000
     cors:
-        allowedOrigins: http://localhost:3000, http://localhost:8080
+        allowedOrigins: ${app.url.fe}, ${app.url.be}
     oauth2:
         authorizedRedirectUris:
-            - http://localhost:3000/oauth2/redirect
+            - ${app.url.fe}/oauth2/redirect
+    url:
+        be: http://localhost:8080
+        fe: http://localhost:3000
 
 ---
+server:
+    port: ${app.port}
 spring:
     profiles: docker
     datasource:
@@ -97,6 +105,7 @@ spring:
                             - email
                             - profile
 app:
+    port: ${PORT:8080}
     db:
         host: ec2-44-199-143-43.compute-1.amazonaws.com
         port: 5432
@@ -108,7 +117,10 @@ app:
         tokenSecret: 04ca023b39512e46d0c2c739f38970518d5aac61d34302994c87ed4eff225dcf3b0a218a057f9b846a69ea2927a587044164b7bae5e1306219d50b588cb1f4b4
         tokenExpirationMsec: 864000000
     cors:
-        allowedOrigins: http://localhost:3000, http://localhost:8080
+        allowedOrigins: ${app.url.fe}, ${app.url.be}
     oauth2:
         authorizedRedirectUris:
-            - http://localhost:3000/oauth2/redirect
+            - ${app.url.fe}/oauth2/redirect
+    url:
+        be: https://my-funchat.herokuapp.com
+        fe: https://funchat-app.netlify.app
